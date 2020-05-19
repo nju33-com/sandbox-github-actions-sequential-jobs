@@ -1,0 +1,16 @@
+on: push
+
+jobs:
+  job1:
+    runs-on: ubuntu-18.04
+    outputs:
+      foo: ${{ steps.foo.outputs.value }}
+    steps:
+      - id: foo
+        run: echo "::set-output name=value::foo"
+  job2:
+    runs-on: ubuntu-18.04
+    needs:
+      - job1
+    steps:
+      - run: echo ${{ needs.job1.outputs.foo }}
